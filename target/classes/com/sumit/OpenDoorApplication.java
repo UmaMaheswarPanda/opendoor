@@ -29,6 +29,6 @@ public class OpenDoorApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OpenDoorApplication.class, args);
-        log.info("*** OpenDoor  Application Started ***");
+        log.info("*** open door  Application Started ***");
     }
 }
