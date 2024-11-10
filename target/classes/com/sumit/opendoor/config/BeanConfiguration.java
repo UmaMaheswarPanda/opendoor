@@ -5,6 +5,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.sumit.opendoor.interceptors.MyCustomInterceptor;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -204,6 +205,18 @@ public class BeanConfiguration implements WebMvcConfigurer {
 					.withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 		} else {
 			return this.s3Client = AmazonS3ClientBuilder.standard().withRegion(region).build();
+		}
+	}
+
+	@Bean
+	public BlobContainerClientBuilder blobContainerClientBuilder() {
+		try {
+			return new BlobContainerClientBuilder()
+					.connectionString(env.getProperty("blob.connection.string"))
+					.containerName(env.getProperty("blob.container.string"));
+		} catch (Exception e) {
+			log.info("Error while creating BlobContainerClientBuilder", e);
+			return new BlobContainerClientBuilder();
 		}
 	}
 }
